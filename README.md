@@ -1,13 +1,15 @@
 # IT Agent
 
-`IT Agent` is a local-first open-source agent design for building tools and systems with a small set of focused subagents.
+`IT Agent` は、ローカルで動くツールやシステムを作るための、ローカルファーストな OSS エージェント設計です。
 
-This repository is the public OSS surface of `it-agent` itself.
-The surrounding daily factory that improves it lives separately and is not the product being distributed.
+このリポジトリで公開するのは `it-agent` 本体です。  
+毎日改善を回す内部運用基盤は別リポジトリで管理し、このリポジトリには含めません。
 
-## What It Is
+## これは何か
 
-`IT Agent` is designed around one orchestrating agent plus a small permanent subagent set:
+`IT Agent` は、1つの全体統括エージェントと、少数の役割特化サブエージェントで構成されます。
+
+常設するのは次の5役です。
 
 - `builder`
 - `tester`
@@ -15,65 +17,65 @@ The surrounding daily factory that improves it lives separately and is not the p
 - `uiux`
 - `improver`
 
-The goal is not to create many agent names.
-The goal is to keep a compact team structure and continuously improve the quality of each role.
+大事なのは、エージェント名を増やすことではありません。  
+本当に必要な役割だけに絞り、その中身を継続的に改善していくことです。
 
-## Core Principles
+## コア原則
 
-- Local-first: outputs should be runnable locally first
-- Small role set: only keep roles that are repeatedly useful
-- Visible improvement loop: feedback should update the agent standard
-- UI/UX matters: tools should be understandable, usable, and demo-ready
-- Principles over templates: improve judgment and review criteria, not fixed visual patterns
+- ローカルファースト: まずローカルで起動できることを重視する
+- 役割は少なく: 繰り返し必要な役割だけを持つ
+- 改善ループを明示: フィードバックを標準ルールへ戻す
+- UI/UXも品質: 動くだけでなく、分かりやすく使いやすいことを重視する
+- テンプレートより原則: 固定の見た目ではなく、判断基準を育てる
 
-## Current State
+## 現在含まれているもの
 
-This repository currently contains:
+このリポジトリには現在、次の内容が入っています。
 
-- role definitions
-- subagent architecture docs
-- handoff contracts
-- review and UI/UX checklists
-- `.codex` subagent configuration
-- reflection logs
-- a sample run that shows handoff shape
+- 役割定義
+- サブエージェント構成ドキュメント
+- handoff 契約
+- レビューと UI/UX のチェックリスト
+- `.codex` 用のサブエージェント設定
+- reflection ログ
+- 受け渡しイメージが分かる sample run
 
-This repository does not yet contain a fully packaged end-user runtime.
-Right now, it is the public source of truth for how `IT Agent` is structured and how it evolves.
+まだ、一般ユーザー向けに完成した実行ランタイム一式は入っていません。  
+現時点では、`IT Agent` の構造と進化方針を公開する OSS リポジトリです。
 
-## Repository Structure
+## リポジトリ構成
 
 ```text
 .codex/
-  agents/                Subagent definitions
-checklists/             Reusable review checklists
-docs/                   Architecture, rules, roadmap, handoff docs
-logs/                   Reflection history
-runs/sample-run/        Example handoff artifacts
+  agents/                サブエージェント定義
+checklists/             再利用するレビュー観点
+docs/                   設計、ルール、roadmap、handoff 文書
+logs/                   reflection 履歴
+runs/sample-run/        受け渡しサンプル
 ```
 
-## How The Agent Is Organized
+## エージェント構成
 
-### Permanent Roles
+### 常設ロール
 
-- `builder`: implements local-first tools and systems
-- `tester`: verifies launch, happy path, and failure path behavior
-- `reviewer`: checks quality, regressions, and OSS clarity
-- `uiux`: improves clarity, usability, and demo strength
-- `improver`: turns findings into `reflect / hold / reject`
+- `builder`: ローカルで動くツールやシステムを実装する
+- `tester`: 起動確認、正常系、失敗系を検証する
+- `reviewer`: 品質、回帰リスク、OSSとしての見え方を確認する
+- `uiux`: 分かりやすさ、使いやすさ、見せ方を改善する
+- `improver`: 所見を `reflect / hold / reject` に整理する
 
-### Conditional Specialists
+### 条件付き specialist
 
-Language or domain specialists are allowed only when repeatedly justified.
+言語特化や用途特化の役割は、必要性が繰り返し確認されたときだけ追加します。
 
-Examples:
+例:
 
 - `python-specialist`
 - `ts-specialist`
 
-The rule is: improve the existing system first, add new roles only when the same class of problem keeps repeating.
+基本方針は、先に既存役割の精度を改善し、それでも足りないときだけ新しい役割を足すことです。
 
-## Key Documents
+## 主要ドキュメント
 
 - [Agent Composition Rules](./docs/agent-composition-rules.md)
 - [Subagents Architecture](./docs/subagents-architecture.md)
@@ -82,7 +84,7 @@ The rule is: improve the existing system first, add new roles only when the same
 - [Reflection Policy](./docs/reflection-policy.md)
 - [Roadmap](./docs/roadmap.md)
 
-## Sample Flow
+## 基本フロー
 
 ```text
 it-agent
@@ -94,27 +96,26 @@ it-agent
 -> reflection into the IT Agent standard
 ```
 
-You can inspect a sample handoff sequence in [runs/sample-run](./runs/sample-run/README.md).
+実際の受け渡しイメージは [runs/sample-run](./runs/sample-run/README.md) を見ると把握しやすいです。
 
-## Philosophy For UI And Demo Evolution
+## UI/UX と動画の進化方針
 
-`IT Agent` should improve not only code quality, but also how tools are presented.
+`IT Agent` は、コード品質だけでなく、ツールの見せ方も改善対象とします。
 
-- UI and video quality are part of product quality
-- Reusable principles are welcome
-- Fixed visual templates are not the goal
-- Each run should still choose the best format for that specific tool
+- UI や動画の質もプロダクト品質の一部
+- 再利用するのは原則や判断観点
+- 固定の見た目テンプレートを守ることは目的にしない
+- 毎回、その成果物に合う見せ方を選ぶ
 
-## Intended OSS Use
+## この OSS が向いている人
 
-This repository is suitable for people who want to:
+このリポジトリは、次のような人に向いています。
 
-- study a compact subagent architecture
-- reuse the role split and handoff model
-- adapt the checklists for their own local-first tool builder
-- evolve an agent system through documented reflection
+- 少数ロールで組むサブエージェント構成を学びたい
+- 役割分担と handoff の設計を再利用したい
+- ローカルファーストなツール生成エージェントを設計したい
+- フィードバックを標準ルールへ戻す運用を OSS 化したい
 
-## License
+## ライセンス
 
-This repository is released under the MIT License.
-
+このリポジトリは MIT License で公開しています。
