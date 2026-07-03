@@ -1,0 +1,24 @@
+[agents]
+max_threads = 6
+max_depth = 1
+job_max_runtime_seconds = 1800
+
+[agents.builder]
+description = "Build-focused worker for local-first tools, prototypes, and system implementations."
+config_file = "agents/it-builder.toml"
+
+[agents.tester]
+description = "Launch and behavior tester for local-first tools. Verifies run commands, happy paths, and failure paths."
+config_file = "agents/it-tester.toml"
+
+[agents.reviewer]
+description = "Owner-minded reviewer focused on correctness, usability, regressions, and OSS readiness."
+config_file = "agents/it-reviewer.toml"
+
+[agents.improver]
+description = "Extracts reusable learning from build, test, and review results, then proposes what should update the IT Agent standard."
+config_file = "agents/it-improver.toml"
+
+[agents.uiux]
+description = "UI and UX specialist for local-first tools, focused on clarity, interaction quality, and visual usefulness."
+config_file = "agents/it-uiux.toml"

@@ -1,0 +1,9 @@
+date,run_id,decision,target_layer,summary,source_artifact,status
+2026-07-01,day-001,reflect,documentation pattern / uiux rule,For local CLI tools place the first-run example and expected output near the top of the README,Local note summarizer CLI,applied
+2026-07-02,day-002,reflect,review rule / documentation pattern,Reviewer should explicitly check whether the last reflected learning improved the current artifact,README quickstart generator,applied
+2026-07-02,day-003,reflect,uiux rule / review rule,For local web apps show what the tool does and the expected result above the fold before requiring user effort,Idea priority board,applied
+2026-07-02,day-004,reflect,review rule / uiux rule,For classification or transformation tools show the rule behind the result near the result itself,JSON change explorer,applied
+2026-07-02,day-005,reflect,review rule / documentation pattern,Heuristic local tools should surface uncertainty or confidence by default,Meeting decision extractor,applied
+2026-07-03,day-005,reflect,uiux rule / capture rule,For browser demos keep the main function inside the final video frame and make the functional area more prominent than the hero copy,Meeting decision extractor,applied
+2026-07-03,day-005,reflect,uiux rule / capture rule,For video demos prefer UI restructuring or screen transitions before using zoom to fit the frame,Meeting decision extractor,applied
+2026-07-03,day-005,reflect,uiux rule / capture rule,Standardize principles and review criteria rather than locking UI or video output into a fixed template,Meeting decision extractor,applied
