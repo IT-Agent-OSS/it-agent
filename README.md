@@ -39,6 +39,7 @@
 - `.codex` 用のサブエージェント設定
 - reflection ログ
 - 受け渡しイメージが分かる sample run
+- `memory.md`
 
 まだ、一般ユーザー向けに完成した実行ランタイム一式は入っていません。  
 現時点では、`IT Agent` の構造と進化方針を公開する OSS リポジトリです。
@@ -82,7 +83,15 @@ runs/sample-run/        受け渡しサンプル
 - [Handoff Contract](./docs/handoff-contract.md)
 - [UIUX Review Checklist](./docs/uiux-review-checklist.md)
 - [Reflection Policy](./docs/reflection-policy.md)
+- [Memory Policy](./docs/memory-policy.md)
 - [Roadmap](./docs/roadmap.md)
+
+## Memory
+
+`memory.md` は、`it-agent` が今どの標準ルールを優先して使うかを短く保持する入口です。  
+詳細は各 docs / checklist / reflection log に残し、`memory.md` はその要点だけを持ちます。
+
+`ai-factory` 側で `reflect` と判断された run は、`push-it-agent-update.py` 経由で `memory.md` と `logs/reflection-log.csv` の両方を更新対象にする。
 
 ## 基本フロー
 
