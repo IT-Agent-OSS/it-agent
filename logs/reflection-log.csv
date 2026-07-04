@@ -8,3 +8,4 @@ date,run_id,decision,target_layer,summary,source_artifact,status
 2026-07-03,day-005,reflect,uiux rule / capture rule,For video demos prefer UI restructuring or screen transitions before using zoom to fit the frame,Meeting decision extractor,applied
 2026-07-03,day-005,reflect,uiux rule / capture rule,Standardize principles and review criteria rather than locking UI or video output into a fixed template,Meeting decision extractor,applied
 2026-07-04,day-007,reflect,uiux rule / reviewer rule,For browser normalization tools include one-click complete and incomplete sample states when that contrast improves review and demo clarity,Bug report repro builder,applied
+2026-07-04,day-008,reflect,builder rule / reviewer rule,For agent task planning treat publish deploy and post actions as high-risk scope that must be explicitly requested rather than inferred from negated wording or broad delegation,Agent run scope planner,applied
