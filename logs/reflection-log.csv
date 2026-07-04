@@ -7,3 +7,4 @@ date,run_id,decision,target_layer,summary,source_artifact,status
 2026-07-03,day-005,reflect,uiux rule / capture rule,For browser demos keep the main function inside the final video frame and make the functional area more prominent than the hero copy,Meeting decision extractor,applied
 2026-07-03,day-005,reflect,uiux rule / capture rule,For video demos prefer UI restructuring or screen transitions before using zoom to fit the frame,Meeting decision extractor,applied
 2026-07-03,day-005,reflect,uiux rule / capture rule,Standardize principles and review criteria rather than locking UI or video output into a fixed template,Meeting decision extractor,applied
+2026-07-04,day-007,reflect,uiux rule / reviewer rule,For browser normalization tools include one-click complete and incomplete sample states when that contrast improves review and demo clarity,Bug report repro builder,applied

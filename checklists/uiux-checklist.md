@@ -12,6 +12,7 @@
 - 見た目が弱くて価値が落ちていないか
 - CLI の場合、first-run example と expected output がすぐ見えるか
 - Web の場合、what it does と expected result が above the fold にあるか
+- Web の場合、complete sample と incomplete sample の両方を one-click で再現した方が価値や限界が伝わるなら、その導線があるか
 - Web の場合、主操作と主要結果が同一画面内で追えるか
 - 1画面に収まらない場合、縮小で押し込む前に画面分割やステップ切り替えで見せられるか
 - 分類や比較ツールでは、decision rule や confidence が visible か
