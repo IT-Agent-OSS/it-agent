@@ -9,11 +9,19 @@
 ## Active Standard Rules
 
 
-
-
-
-
-
+- before inferring high-risk actions, check whether publish/deploy/post verbs are explicitly requested or only mentioned as exclusions, negations, or forbidden steps
+- when a request mixes latest-info lookup, publish intent, and broad delegation, narrow or clarify before execution instead of silently proceeding
+- if a heuristic planner supports Japanese UI, include at least one Japanese negation case such as `公開しない` or `投稿しない` in local checks
+- 機能ロジックは UI ファイルに埋め込まず、ローカルでも `UI -> callable logic` の境界を作る
+- API 化しなくても、後から CLI / UI / 別 wrapper から再利用できる構造を優先する
+- CLI でも最初の実行例と期待出力を早い位置で見せる
+- local web app では、何ができて何が返るかを above the fold で分かるようにする
+- heuristic ツールでは confidence や uncertainty を visible にする
+- browser-based local tools では、complete state と incomplete state の対比が有効なら標準で見せる
+- 動画や UI は固定テンプレート化せず、標準化するのは判断原則と review 観点に留める
+- publish / deploy / post のような外部反映行為は、高リスク scope として明示依頼があるかを慎重に見る
+- 外向き claim を扱う成果物では、reviewer が evidence sufficiency を独立観点として確認する
+- heuristic な数値判定を含む成果物では、tester が derived support の境界ケースを 1 つ残す
 - spec QA builder は、抽出対象を 1 つに混ぜず `assumption` と `missing fields` を最初から分離する。
 - reviewer は spec helper で、欠損基準が UI か README に明示されているか確認する。
 - TypeScript の text-review UI は、抽出カテゴリを別カードで出して比較しやすくする。
@@ -27,11 +35,16 @@
 ## Recently Reflected Learnings
 
 
-
-
-
-
-
+- UI 付きローカルツールでも、機能本体は callable module に切り出して UI は呼び出し層にする
+- 同じロジックを将来の CLI / UI / automation から使い回せる構造を標準にする
+- publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
+- the rule is simple, broadly reusable across agent workflows, and it already produced a concrete bug fix and checklist-level improvement in this run
+- reviewer は「前回 reflected learning が今回の成果物に効いているか」を確認する
+- uiux は主機能が first visible value になっているかを重視する
+- browser demo では、主機能が最終フレーム内に完全に収まることを確認する
+- 収まらない時は縮小より先に UI 再構成や画面遷移を検討する
+- external-facing claims need a separate evidence-sufficiency review, not only wording review
+- heuristic numeric checks should be tested with at least one derived-support boundary case
 - spec 系ツールでは抽出カテゴリ分離と欠損基準の明示を標準にする
 - 今後の仕様レビュー補助ツール全般に効く構造だから。
 - triage 系ツールでは label より先に理由の透明性を確認する
