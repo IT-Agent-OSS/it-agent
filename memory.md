@@ -12,6 +12,10 @@
 
 
 
+
+- triage 系 builder は label だけでなく、境界の根拠を何で説明するかまで最初に決める。
+- reviewer は urgency classifier に説明可能性があるかを確認する。
+- Python の rubric checker は score と reasons を分離出力し、後から閾値変更しやすくする。
 - rule / policy QA ツールの builder は、例外条件と基本ルールを区別できる出力形を先に考える。
 - reviewer は contradiction 系ツールで「条件違いを単純矛盾扱いしていないか」を確認する。
 - TypeScript の text QA UI では、subject 正規化ロジックを UI と分離してテストしやすくする。
@@ -19,15 +23,15 @@
 - tester は blocker / urgency / ownership の 3 観点が混ざるツールで、出力が優先順位を示せているか確認する。
 - Python の運用チェッカーでは、キーワード検出結果と管理情報欠損を別ラベルで出す。
 - Strengthen `builder` and `reviewer` instructions so diff/comparison tools must preserve semantic context, not only string deltas. If items are grouped by section, status, severity, or audience, moving the same statement between groups must be treated as a meaningful change case during implementation and review.
-- For any parser- or heuristic-driven tool, tester and reviewer must include at least one input-format edge case and one semantic reclassification case, then verify the UI communicates unsupported input instead of returning a clean-looking empty result.
-- For single-file TypeScript browser apps, builder handoff must explicitly document accepted input structure, parse assumptions, and empty/unsupported-input behavior in addition to the launch command.
-- before inferring high-risk actions, check whether publish/deploy/post verbs are explicitly requested or only mentioned as exclusions, negations, or forbidden steps
 ## Recently Reflected Learnings
 
 
 
 
 
+
+- triage 系ツールでは label より先に理由の透明性を確認する
+- 他の classifier 系ツールにもそのまま効く学びだから。
 - contradiction 系では条件差分を単純矛盾扱いしていないかを標準観点にする
 - 文書 QA 系テーマ全体に再利用できる判断軸だから。
 - blocker 検出系では優先順位づけと metadata 欠損の分離表示を標準観点にする
@@ -36,8 +40,6 @@
 - The failures expose stable improvements to existing roles and handoff checks without requiring any new agent. They align with `it-agent`'s rule of restraint by upgrading builder/tester/reviewer guidance and `ai-factory` gating instead of expanding the role set.
 - publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
 - the rule is simple, broadly reusable across agent workflows, and it already produced a concrete bug fix and checklist-level improvement in this run
-- reviewer は「前回 reflected learning が今回の成果物に効いているか」を確認する
-- uiux は主機能が first visible value になっているかを重視する
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
