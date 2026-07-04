@@ -11,6 +11,10 @@
 
 
 
+
+- rule / policy QA ツールの builder は、例外条件と基本ルールを区別できる出力形を先に考える。
+- reviewer は contradiction 系ツールで「条件違いを単純矛盾扱いしていないか」を確認する。
+- TypeScript の text QA UI では、subject 正規化ロジックを UI と分離してテストしやすくする。
 - 運用系チェッカーを作る builder は、signal の有無だけでなく優先順位づけまで最小要件として考える。
 - tester は blocker / urgency / ownership の 3 観点が混ざるツールで、出力が優先順位を示せているか確認する。
 - Python の運用チェッカーでは、キーワード検出結果と管理情報欠損を別ラベルで出す。
@@ -18,14 +22,14 @@
 - For any parser- or heuristic-driven tool, tester and reviewer must include at least one input-format edge case and one semantic reclassification case, then verify the UI communicates unsupported input instead of returning a clean-looking empty result.
 - For single-file TypeScript browser apps, builder handoff must explicitly document accepted input structure, parse assumptions, and empty/unsupported-input behavior in addition to the launch command.
 - before inferring high-risk actions, check whether publish/deploy/post verbs are explicitly requested or only mentioned as exclusions, negations, or forbidden steps
-- when a request mixes latest-info lookup, publish intent, and broad delegation, narrow or clarify before execution instead of silently proceeding
-- if a heuristic planner supports Japanese UI, include at least one Japanese negation case such as `公開しない` or `投稿しない` in local checks
-- CLI でも最初の実行例と期待出力を早い位置で見せる
 ## Recently Reflected Learnings
 
 
 
 
+
+- contradiction 系では条件差分を単純矛盾扱いしていないかを標準観点にする
+- 文書 QA 系テーマ全体に再利用できる判断軸だから。
 - blocker 検出系では優先順位づけと metadata 欠損の分離表示を標準観点にする
 - 今後の blocker / urgency / review 系ツール全体に効く観点だから。
 - parser-heavy diff tool では unsupported input の明示と semantic reclassification case の確認を標準観点にする
@@ -34,8 +38,6 @@
 - the rule is simple, broadly reusable across agent workflows, and it already produced a concrete bug fix and checklist-level improvement in this run
 - reviewer は「前回 reflected learning が今回の成果物に効いているか」を確認する
 - uiux は主機能が first visible value になっているかを重視する
-- browser demo では、主機能が最終フレーム内に完全に収まることを確認する
-- 収まらない時は縮小より先に UI 再構成や画面遷移を検討する
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
