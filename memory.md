@@ -9,6 +9,10 @@
 ## Active Standard Rules
 
 
+
+- For parser-heavy validation helpers, `builder` should treat `common-but-not-yet-covered failure families` as part of MVP scope, not as optional polish. `tester` and `reviewer` should explicitly probe one repeated failure from the same tool that is outside the shipped happy-path examples and judge whether it is clustered specifically or only generically.
+- When reviewing local validation tools, verify both `specific repeated family coverage` and `intentional CLI/operator failure messaging`. Concretely: one unsupported-but-common log family should be tested, and one basic operator error such as a bad file path should return a short tool-level message rather than only an interpreter traceback.
+- For Python CLI log analyzers, require a small regression test set that covers normalization families and CLI exit behavior separately. At minimum: one known family cluster case, one common uncovered-family probe, one generic fallback case, and one missing-input-path case.
 - before inferring high-risk actions, check whether publish/deploy/post verbs are explicitly requested or only mentioned as exclusions, negations, or forbidden steps
 - when a request mixes latest-info lookup, publish intent, and broad delegation, narrow or clarify before execution instead of silently proceeding
 - if a heuristic planner supports Japanese UI, include at least one Japanese negation case such as `公開しない` or `投稿しない` in local checks
@@ -16,25 +20,11 @@
 - API 化しなくても、後から CLI / UI / 別 wrapper から再利用できる構造を優先する
 - CLI でも最初の実行例と期待出力を早い位置で見せる
 - local web app では、何ができて何が返るかを above the fold で分かるようにする
-- heuristic ツールでは confidence や uncertainty を visible にする
-- browser-based local tools では、complete state と incomplete state の対比が有効なら標準で見せる
-- 動画や UI は固定テンプレート化せず、標準化するのは判断原則と review 観点に留める
-- publish / deploy / post のような外部反映行為は、高リスク scope として明示依頼があるかを慎重に見る
-- 外向き claim を扱う成果物では、reviewer が evidence sufficiency を独立観点として確認する
-- heuristic な数値判定を含む成果物では、tester が derived support の境界ケースを 1 つ残す
-- spec QA builder は、抽出対象を 1 つに混ぜず `assumption` と `missing fields` を最初から分離する。
-- reviewer は spec helper で、欠損基準が UI か README に明示されているか確認する。
-- TypeScript の text-review UI は、抽出カテゴリを別カードで出して比較しやすくする。
-- triage 系 builder は label だけでなく、境界の根拠を何で説明するかまで最初に決める。
-- reviewer は urgency classifier に説明可能性があるかを確認する。
-- Python の rubric checker は score と reasons を分離出力し、後から閾値変更しやすくする。
-- rule / policy QA ツールの builder は、例外条件と基本ルールを区別できる出力形を先に考える。
-- reviewer は contradiction 系ツールで「条件違いを単純矛盾扱いしていないか」を確認する。
-- TypeScript の text QA UI では、subject 正規化ロジックを UI と分離してテストしやすくする。
-- 運用系チェッカーを作る builder は、signal の有無だけでなく優先順位づけまで最小要件として考える。
 ## Recently Reflected Learnings
 
 
+
+- The observed weaknesses are not unique to this artifact. They are recurrent risks for parser-heavy local tools and can be absorbed by stronger builder/tester/reviewer rules without adding a new role. The exact mypy `[return-value]` support and the missing-file message remain one-off artifact fixes, while the reusable part is the process rule that these cases must be tested and reviewed intentionally.
 - UI 付きローカルツールでも、機能本体は callable module に切り出して UI は呼び出し層にする
 - 同じロジックを将来の CLI / UI / automation から使い回せる構造を標準にする
 - publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
@@ -44,17 +34,6 @@
 - browser demo では、主機能が最終フレーム内に完全に収まることを確認する
 - 収まらない時は縮小より先に UI 再構成や画面遷移を検討する
 - external-facing claims need a separate evidence-sufficiency review, not only wording review
-- heuristic numeric checks should be tested with at least one derived-support boundary case
-- spec 系ツールでは抽出カテゴリ分離と欠損基準の明示を標準にする
-- 今後の仕様レビュー補助ツール全般に効く構造だから。
-- triage 系ツールでは label より先に理由の透明性を確認する
-- 他の classifier 系ツールにもそのまま効く学びだから。
-- contradiction 系では条件差分を単純矛盾扱いしていないかを標準観点にする
-- 文書 QA 系テーマ全体に再利用できる判断軸だから。
-- blocker 検出系では優先順位づけと metadata 欠損の分離表示を標準観点にする
-- 今後の blocker / urgency / review 系ツール全体に効く観点だから。
-- parser-heavy diff tool では unsupported input の明示と semantic reclassification case の確認を標準観点にする
-- The failures expose stable improvements to existing roles and handoff checks without requiring any new agent. They align with `it-agent`'s rule of restraint by upgrading builder/tester/reviewer guidance and `ai-factory` gating instead of expanding the role set.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
