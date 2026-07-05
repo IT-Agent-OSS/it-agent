@@ -14,6 +14,10 @@
 
 
 
+
+- Strengthen `tester` and `reviewer` guidance for local review tools so they explicitly verify that any displayed score, severity, sort order, or summary metric is safe for the decision it claims to support. If a tool tells users what to fix first, the checks must confirm that ranking logic matches that goal.
+- For tools that output findings, require one check for `priority integrity` and one for `evidence traceability`. `Priority integrity` asks whether severity and ordering match the stated triage purpose. `Evidence traceability` asks whether each finding exposes enough concrete source detail for a user to validate and act on it quickly.
+- None. This lesson is cross-language and should live in shared tester/reviewer rules rather than HTML/JavaScript-specific instructions.
 - Strengthen `builder`, `tester`, and `reviewer` guidance for reviewer-facing diff or migration tools: when evidence is derived from matched identifiers, preserve disambiguating context from analysis through final output, and do not allow the presentation layer to collapse distinct records into the same label.
 - For rename, diff, or impact-analysis artifacts, add a required adversarial check: `create at least one fixture with the same leaf key under different parent paths and verify that evidence output remains path-labeled or otherwise unambiguous`.
 - For TypeScript CLI analyzers that produce reviewer evidence, model display records with explicit path fields and keep scan keys separate from human-readable leaf labels so rendering cannot silently merge distinct findings.
@@ -21,9 +25,6 @@
 - For heuristic extraction or lint-style tools, add a required check: `create 1-2 tiny counterexample inputs that should stay separate; verify the tool does not let one global note satisfy unrelated items and does not convert prose/status text into actionable units`.
 - Python CLI tools that rely on keyword heuristics should keep detection functions narrow and testable; prefer token or boundary-aware matching over raw substring matching for verbs like `update`, `change`, `start`, and `restart`.
 - Strengthen builder, tester, and reviewer guidance for heuristic classifier tools. When the artifact extracts or labels text, commands, or snippets, require the builder to define both positive detection rules and explicit exclusion rules, require the tester to run at least one adversarial false-positive sample plus one mislabeled-format sample, and require the reviewer to challenge certainty wording in the UI and report copy.
-- For extractor or annotator tools, verify three things before calling the MVP acceptable: 1. at least two non-happy-path samples were tested, 2. obvious non-target snippets are excluded, and 3. unmatched output is described as `no current match` or equivalent rather than implicitly safe.
-- For TypeScript text-analysis tools, separate `snippet extraction`, `normalization`, and `risk labeling` into distinct typed functions and keep negative fixtures for path, URL, prose, and non-shell fence cases alongside the logic.
-- tester` と `reviewer` に、reporting / coverage 系ツールでは happy path と基本 failure path だけで終わらず、`malformed-but-parseable input` と `type confusion input` を必ず 1 件ずつ当てるルールを加える。`builder` には、入力を silent skip する実装は「missing coverage を増やすだけの正常系」に見えやすいため、入力不正の surfacing 方針を handoff に明記させる。
 ## Recently Reflected Learnings
 
 
@@ -32,6 +33,8 @@
 
 
 
+
+- The lesson satisfies the `it-agent` evolution rule to improve existing roles instead of inventing new ones. It is reusable across languages and artifact types, directly strengthens the core build -> test -> review loop, and was supported by concrete evidence from this run rather than a one-off preference.
 - The concrete bug belongs to this artifact, but the escape pattern is general and likely to recur in schema-diff, mapping, migration, and rename-review tools. The right response is to strengthen existing role guidance and checklists rather than add a new role or treat this as a one-off hold.
 - The artifact bugs themselves are one-off implementation issues, but the way they escaped is clearly reusable process learning for `it-agent`. This is not a one-time theme quirk: many local-first checkers, parsers, and linters will share the same failure pattern, so the right fix is to strengthen tester/reviewer rules rather than create a new role.
 - The weakness was not limited to this artifact's domain. It exposed a repeatable gap in how `it-agent` builds, tests, and reviews extraction-based local tools. The fix belongs in role guidance and checklists, while artifact-specific items such as the exact extractor thresholds and adding a local README remain one-off implementation work.
@@ -41,7 +44,6 @@
 - 同じロジックを将来の CLI / UI / automation から使い回せる構造を標準にする
 - publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
 - the rule is simple, broadly reusable across agent workflows, and it already produced a concrete bug fix and checklist-level improvement in this run
-- reviewer は「前回 reflected learning が今回の成果物に効いているか」を確認する
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
