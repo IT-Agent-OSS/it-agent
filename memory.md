@@ -15,6 +15,10 @@
 
 
 
+
+- Strengthen `builder` and `tester` instructions for heuristic multi-source checkers so they must validate the claimed rule with a fixture, not only prove that the command launches and returns counts.
+- If a sample README or demo narrative says "this input should warn" or "this case should not warn", tester must include an explicit reproduction that proves each stated expectation against actual output.
+- For TypeScript CLI scanners that recurse directories, include either a default ignore list for common generated/vendor folders or a test that shows curated path input is mandatory and documented.
 - Strengthen `tester` and `reviewer` guidance for local review tools so they explicitly verify that any displayed score, severity, sort order, or summary metric is safe for the decision it claims to support. If a tool tells users what to fix first, the checks must confirm that ranking logic matches that goal.
 - For tools that output findings, require one check for `priority integrity` and one for `evidence traceability`. `Priority integrity` asks whether severity and ordering match the stated triage purpose. `Evidence traceability` asks whether each finding exposes enough concrete source detail for a user to validate and act on it quickly.
 - None. This lesson is cross-language and should live in shared tester/reviewer rules rather than HTML/JavaScript-specific instructions.
@@ -22,9 +26,6 @@
 - For rename, diff, or impact-analysis artifacts, add a required adversarial check: `create at least one fixture with the same leaf key under different parent paths and verify that evidence output remains path-labeled or otherwise unambiguous`.
 - For TypeScript CLI analyzers that produce reviewer evidence, model display records with explicit path fields and keep scan keys separate from human-readable leaf labels so rendering cannot silently merge distinct findings.
 - Strengthen `tester` and `reviewer` instructions for heuristic checkers and parsers so they must try at least one adversarial minimal input that targets over-broad inheritance and one that targets false-positive classification, not only the documented happy path.
-- For heuristic extraction or lint-style tools, add a required check: `create 1-2 tiny counterexample inputs that should stay separate; verify the tool does not let one global note satisfy unrelated items and does not convert prose/status text into actionable units`.
-- Python CLI tools that rely on keyword heuristics should keep detection functions narrow and testable; prefer token or boundary-aware matching over raw substring matching for verbs like `update`, `change`, `start`, and `restart`.
-- Strengthen builder, tester, and reviewer guidance for heuristic classifier tools. When the artifact extracts or labels text, commands, or snippets, require the builder to define both positive detection rules and explicit exclusion rules, require the tester to run at least one adversarial false-positive sample plus one mislabeled-format sample, and require the reviewer to challenge certainty wording in the UI and report copy.
 ## Recently Reflected Learnings
 
 
@@ -34,6 +35,8 @@
 
 
 
+
+- reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
 - The lesson satisfies the `it-agent` evolution rule to improve existing roles instead of inventing new ones. It is reusable across languages and artifact types, directly strengthens the core build -> test -> review loop, and was supported by concrete evidence from this run rather than a one-off preference.
 - The concrete bug belongs to this artifact, but the escape pattern is general and likely to recur in schema-diff, mapping, migration, and rename-review tools. The right response is to strengthen existing role guidance and checklists rather than add a new role or treat this as a one-off hold.
 - The artifact bugs themselves are one-off implementation issues, but the way they escaped is clearly reusable process learning for `it-agent`. This is not a one-time theme quirk: many local-first checkers, parsers, and linters will share the same failure pattern, so the right fix is to strengthen tester/reviewer rules rather than create a new role.
@@ -43,7 +46,6 @@
 - UI 付きローカルツールでも、機能本体は callable module に切り出して UI は呼び出し層にする
 - 同じロジックを将来の CLI / UI / automation から使い回せる構造を標準にする
 - publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
-- the rule is simple, broadly reusable across agent workflows, and it already produced a concrete bug fix and checklist-level improvement in this run
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
