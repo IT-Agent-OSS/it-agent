@@ -16,6 +16,10 @@
 
 
 
+
+- Strengthen `builder` and `tester` guidance for audit and checker-style tools so they treat malformed source data as a first-class failure case and explicitly verify that documented matcher behavior matches the real implementation.
+- For local audit/checker artifacts, require one negative test for malformed source rows and one contract test for any documented pattern-matching or parsing rule; reject silent row skipping unless it is surfaced as a warning or error by design.
+- For Python CLIs, catch expected parse and validation failures at the CLI boundary and emit concise file-specific user errors instead of raw tracebacks for common operator mistakes.
 - Strengthen `builder` and `tester` instructions for heuristic multi-source checkers so they must validate the claimed rule with a fixture, not only prove that the command launches and returns counts.
 - If a sample README or demo narrative says "this input should warn" or "this case should not warn", tester must include an explicit reproduction that proves each stated expectation against actual output.
 - For TypeScript CLI scanners that recurse directories, include either a default ignore list for common generated/vendor folders or a test that shows curated path input is mandatory and documented.
@@ -23,9 +27,6 @@
 - For tools that output findings, require one check for `priority integrity` and one for `evidence traceability`. `Priority integrity` asks whether severity and ordering match the stated triage purpose. `Evidence traceability` asks whether each finding exposes enough concrete source detail for a user to validate and act on it quickly.
 - None. This lesson is cross-language and should live in shared tester/reviewer rules rather than HTML/JavaScript-specific instructions.
 - Strengthen `builder`, `tester`, and `reviewer` guidance for reviewer-facing diff or migration tools: when evidence is derived from matched identifiers, preserve disambiguating context from analysis through final output, and do not allow the presentation layer to collapse distinct records into the same label.
-- For rename, diff, or impact-analysis artifacts, add a required adversarial check: `create at least one fixture with the same leaf key under different parent paths and verify that evidence output remains path-labeled or otherwise unambiguous`.
-- For TypeScript CLI analyzers that produce reviewer evidence, model display records with explicit path fields and keep scan keys separate from human-readable leaf labels so rendering cannot silently merge distinct findings.
-- Strengthen `tester` and `reviewer` instructions for heuristic checkers and parsers so they must try at least one adversarial minimal input that targets over-broad inheritance and one that targets false-positive classification, not only the documented happy path.
 ## Recently Reflected Learnings
 
 
@@ -36,6 +37,8 @@
 
 
 
+
+- The issue was not a one-off product quirk. It exposed a repeatable weakness in builder claims, tester coverage, and reviewer contract checking for checker-style tools. The corrective rule is narrow, reusable, and fits existing `it-agent` roles without adding a new agent.
 - reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
 - The lesson satisfies the `it-agent` evolution rule to improve existing roles instead of inventing new ones. It is reusable across languages and artifact types, directly strengthens the core build -> test -> review loop, and was supported by concrete evidence from this run rather than a one-off preference.
 - The concrete bug belongs to this artifact, but the escape pattern is general and likely to recur in schema-diff, mapping, migration, and rename-review tools. The right response is to strengthen existing role guidance and checklists rather than add a new role or treat this as a one-off hold.
@@ -45,7 +48,6 @@
 - The observed weaknesses are not unique to this artifact. They are recurrent risks for parser-heavy local tools and can be absorbed by stronger builder/tester/reviewer rules without adding a new role. The exact mypy `[return-value]` support and the missing-file message remain one-off artifact fixes, while the reusable part is the process rule that these cases must be tested and reviewed intentionally.
 - UI 付きローカルツールでも、機能本体は callable module に切り出して UI は呼び出し層にする
 - 同じロジックを将来の CLI / UI / automation から使い回せる構造を標準にする
-- publish, deploy, and posting actions should require explicit positive intent and should not be inferred from negated wording or broad delegation
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
