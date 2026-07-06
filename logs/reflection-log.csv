@@ -16,3 +16,4 @@ date,run_id,decision,target_layer,summary,source_artifact,status
 2026-07-07,day-017,reflect,role / checklist / language rule / ai-factory rule,contradiction 系では条件差分を単純矛盾扱いしていないかを標準観点にする,Policy contradiction viewer,applied
 2026-07-08,day-018,reflect,role / checklist / language rule / ai-factory rule,triage 系ツールでは label より先に理由の透明性を確認する,Support urgency rubric checker,applied
 2026-07-09,day-019,reflect,role / checklist / language rule / ai-factory rule,spec 系ツールでは抽出カテゴリ分離と欠損基準の明示を標準にする,Spec assumption mapper,applied
+2026-07-06,day-022,reflect,checklist / prompt rule / language rule,"review the primary interactive path for stable selectors, descriptive actions, and structured field names before treating a browser tool as agent-ready",WebMCP readiness sketchpad,applied
