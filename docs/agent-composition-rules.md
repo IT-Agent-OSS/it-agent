@@ -72,6 +72,11 @@
 - `python-specialist`
 - `go-specialist`
 
+運用ルール:
+
+- specialist の定義ファイル(`.codex/agents/*.toml`)は先に置いてよいが、`.codex/config.toml` への登録は必要になった時だけ行う
+- 未登録の定義ファイルは「候補」であり、常設5役の rule 改善で吸収できる間は登録しない
+
 ## When A New Role Can Be Added
 
 新しい役割を追加してよいのは、以下をすべて満たす場合だけ。
