@@ -13,6 +13,7 @@
 - 直近の reflected learning が今回の成果物で活きているか
 - Web/UI artifacts では first visible value が user effort より前に出ているか
 - Web/UI artifacts では、機能ロジックが UI に直埋めされず、呼び出し可能な層として分離されているか
+- agent-facing な Web/UI artifacts では、主操作に stable selector、descriptive action label、`name` 付き field が揃っているか
 - 変換・分類・正規化系の Web ツールでは、complete sample と incomplete sample の両方で挙動確認できるか
 - 分類・変換・抽出系なら、なぜその結果か / どれくらい確からしいかが見えるか
 - 外向き claim や marketing copy を扱う成果物なら、主張の強さが evidence と釣り合っているか
