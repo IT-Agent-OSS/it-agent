@@ -39,6 +39,12 @@ it-agent
 -> reflection into IT Agent standard
 ```
 
+運用上の注意:
+
+- `uiux` は UI を持つ成果物で独立フェーズとして実行する
+- CLI のみの成果物では、`reviewer` が UI/UX 観点(出力の読みやすさ、初見の分かりやすさ)を兼ねてよい
+- どちらの経路でも、UI/UX の再利用可能な学習は uiux checklist へ反映する
+
 ## Parallelism
 
 並列化しやすいのは以下:

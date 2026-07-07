@@ -18,6 +18,10 @@
 
 
 
+
+- Strengthen `reviewer` and `improver` guidance for heuristic tools so they must challenge confident labels such as `supported`, `safe`, or `complete` with at least one adversarial counterexample, not just confirm happy-path counts.
+- For any heuristic classifier, require one false-positive probe and one false-support or false-attribution probe before recommending `PASS`; record whether the tool explains why a confident label was assigned.
+- For Python text heuristics, avoid raw substring keyword checks for semantic classification when token- or phrase-aware matching is feasible in the standard library; require explicit word-boundary or tokenization logic for short keywords like `can`.
 - For agent-facing browser tools, reviewer should treat the action surface itself as a quality target, not only the visible layout.
 - Check whether the primary interactive path exposes stable selectors, descriptive action labels, and `name` attributes before calling the tool agent-ready.
 - In browser-based HTML/JavaScript heuristics, keep evidence lists more prominent than any aggregate readiness score.
@@ -25,12 +29,6 @@
 - For schema-driven artifacts, explicitly test whether common indirection or fallback forms are handled correctly, such as `"$ref"`, shared components, and `default`-style catch-all branches, and treat silent skipping as a high-severity correctness risk.
 - None. This learning is format- and role-level, not Node.js-specific.
 - Strengthen `builder` and `tester` guidance for audit and checker-style tools so they treat malformed source data as a first-class failure case and explicitly verify that documented matcher behavior matches the real implementation.
-- For local audit/checker artifacts, require one negative test for malformed source rows and one contract test for any documented pattern-matching or parsing rule; reject silent row skipping unless it is surfaced as a warning or error by design.
-- For Python CLIs, catch expected parse and validation failures at the CLI boundary and emit concise file-specific user errors instead of raw tracebacks for common operator mistakes.
-- Strengthen `builder` and `tester` instructions for heuristic multi-source checkers so they must validate the claimed rule with a fixture, not only prove that the command launches and returns counts.
-- If a sample README or demo narrative says "this input should warn" or "this case should not warn", tester must include an explicit reproduction that proves each stated expectation against actual output.
-- For TypeScript CLI scanners that recurse directories, include either a default ignore list for common generated/vendor folders or a test that shows curated path input is mandatory and documented.
-- Strengthen `tester` and `reviewer` guidance for local review tools so they explicitly verify that any displayed score, severity, sort order, or summary metric is safe for the decision it claims to support. If a tool tells users what to fix first, the checks must confirm that ranking logic matches that goal.
 ## Recently Reflected Learnings
 
 
@@ -43,6 +41,8 @@
 
 
 
+
+- The failures were not accidental one-off bugs tied only to this artifact. They expose repeatable process gaps in how `it-agent` tests and reviews heuristic classifiers, and the corrective rule is stable enough to improve future Python and text-analysis runs without adding a new role.
 - The defect pattern is clearly reusable across future schema-driven tools, fits existing `reviewer` and ai-factory process layers, and does not depend on this single artifact's domain. The build/test/review evidence is strong enough to justify a standard-rule update.
 - The issue was not a one-off product quirk. It exposed a repeatable weakness in builder claims, tester coverage, and reviewer contract checking for checker-style tools. The corrective rule is narrow, reusable, and fits existing `it-agent` roles without adding a new agent.
 - reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
@@ -52,7 +52,6 @@
 - The weakness was not limited to this artifact's domain. It exposed a repeatable gap in how `it-agent` builds, tests, and reviews extraction-based local tools. The fix belongs in role guidance and checklists, while artifact-specific items such as the exact extractor thresholds and adding a local README remain one-off implementation work.
 - 今回の欠陥はこの artifact 固有の business rule ではなく、Python の型罠と入力検証の甘さという再発性の高い問題だった。既存 5 役のまま prompt / checklist / language rule を強化すれば防げる種類で、`it-agent` を実際に強くする学習として十分汎用的。
 - The observed weaknesses are not unique to this artifact. They are recurrent risks for parser-heavy local tools and can be absorbed by stronger builder/tester/reviewer rules without adding a new role. The exact mypy `[return-value]` support and the missing-file message remain one-off artifact fixes, while the reusable part is the process rule that these cases must be tested and reviewed intentionally.
-- UI 付きローカルツールでも、機能本体は callable module に切り出して UI は呼び出し層にする
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
