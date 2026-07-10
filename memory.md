@@ -8,6 +8,8 @@
 
 ## Active Standard Rules
 
+- **Builder**: add a rule that when a logic module returns a `breakdown`, `reasoning`, or `explanation` object alongside a verdict, that object must include all data the UI needs to render a human-readable explanation — including multipliers and weights, not just raw dimension values. Storing raw values without weights shifts the rendering burden to the UI and requires the UI to couple to internal logic constants. This is a data-contract failure, not a UI omission.
+- **JavaScript (plain ES modules)**: include a `node --input-type=module` smoke-test invocation in the build handoff as the reproducible test command. The test phase should reference this command rather than relying on static code trace. This gives the tester a single line to run that exercises the logic layer without a browser.
 - reviewer は UI の完成度だけで通さず、価値の中心ロジックが危険ケースを本当に止められているかを必須確認にする。
 - 「危険サンプルが意図通り BLOCK / WARN になるか」「安全サンプルが過剰に BLOCK されていないか」を、判定系ツールの標準チェックに追加する。
 - TypeScript / Vite のローカルツールでは、`src/lib/*` に callable logic を置き、`src/main.ts` は描画と配線だけに寄せる。
@@ -16,10 +18,9 @@
 - for CSS that ships a `prefers-color-scheme: dark` media query, base element rules (`button`, `select`, `input`, and similar controls) must reference themed custom properties (e.g. `var(--panel)`, `var(--text)`) rather than a literal color like `white`; a hardcoded literal in the base rule silently survives the dark-mode override block untouched. Added as a CSS/styling rule note for `builder`.
 - New checklist items added to `it-agent/checklists/uiux-checklist.md` (verify controls in forced OS/browser dark mode, not only the default) and `it-agent/checklists/reviewer-checklist.md` plus `it-agent/checklists/tester-checklist.md` (test changing a control after a result is already shown, not only the first-pass linear flow).
 - Strengthen `reviewer` and `improver` guidance for heuristic tools so they must challenge confident labels such as `supported`, `safe`, or `complete` with at least one adversarial counterexample, not just confirm happy-path counts.
-- For any heuristic classifier, require one false-positive probe and one false-support or false-attribution probe before recommending `PASS`; record whether the tool explains why a confident label was assigned.
-- For Python text heuristics, avoid raw substring keyword checks for semantic classification when token- or phrase-aware matching is feasible in the standard library; require explicit word-boundary or tokenization logic for short keywords like `can`.
 ## Recently Reflected Learnings
 
+- All five rules are reusable across future runs, none are one-off fixes, and they address failure modes that will recur in any governance/classification artifact (rules 1–4) or any no-build-step browser artifact (rule 5). The wins (pure logic separation, dual-gate classification) also confirm patterns worth preserving in builder guidance.
 - 判定ロジックの危険ケース検知を優先レビューすること、そして callable logic を UI 外へ分離することを正式ルール候補として持ち帰る
 - どちらも day-039 固有の偶然ではなく、今後の it-agent と ai-factory に再利用価値がある。
 - Neither failure is a one-off quirk of this specific handoff-checking domain. Any future browser artifact with a dark-mode CSS block can hit the identical hardcoded-color trap, and any future tool with a selector/dropdown driving computation against persistent textarea/file state can hit the identical stale-recompute trap. Both are narrow, concrete, and were independently reproduced (uiux's `getComputedStyle` read for the CSS bug; reviewer's and uiux's live Playwright reproduction for the stale-state bug), and both are absorbable into the existing `uiux`/`reviewer`/`tester` checklists without adding a new role, consistent with the preferred growth order in `agent-composition-rules.md`.
@@ -29,7 +30,6 @@
 - reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
 - The lesson satisfies the `it-agent` evolution rule to improve existing roles instead of inventing new ones. It is reusable across languages and artifact types, directly strengthens the core build -> test -> review loop, and was supported by concrete evidence from this run rather than a one-off preference.
 - The concrete bug belongs to this artifact, but the escape pattern is general and likely to recur in schema-diff, mapping, migration, and rename-review tools. The right response is to strengthen existing role guidance and checklists rather than add a new role or treat this as a one-off hold.
-- The artifact bugs themselves are one-off implementation issues, but the way they escaped is clearly reusable process learning for `it-agent`. This is not a one-time theme quirk: many local-first checkers, parsers, and linters will share the same failure pattern, so the right fix is to strengthen tester/reviewer rules rather than create a new role.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要

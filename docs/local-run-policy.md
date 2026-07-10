@@ -24,3 +24,4 @@
 - 起動手順がREADMEに書ける
 - 第三者が手元で再現できる
 - 主要動作を動画に撮れる
+- plain ES module の browser artifact は、ブラウザ起動とは別に `node --input-type=module` でロジック層を検証できる smoke test コマンドを残す
