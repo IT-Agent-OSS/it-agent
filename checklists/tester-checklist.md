@@ -13,6 +13,7 @@
 - 明確な失敗系を少なくとも1つ見たか
 - heuristic や scoring を含むツールなら、境界ケースを少なくとも1つ見たか
 - 数値 claim を扱うツールなら、direct match だけでなく derived support のケースも見たか
+- re-run / re-triage / re-analyze 操作では、結果が変わらない場合でもクリックが通ったことを示す visible feedback があるか
 - 再現手順を書いたか
 - 未検証項目を残したか
 - ブラウザ成果物で `prefers-color-scheme: dark` に対応している場合、ダークモードを強制した状態でも主要コントロールが操作できるか確認したか

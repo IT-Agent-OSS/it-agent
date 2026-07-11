@@ -8,6 +8,7 @@
 
 ## Active Standard Rules
 
+- For agent-facing tools, reviewer/tester should confirm error contracts are structured, recoverable, observable, and user-actionable.
 - **Builder**: add a rule that when a logic module returns a `breakdown`, `reasoning`, or `explanation` object alongside a verdict, that object must include all data the UI needs to render a human-readable explanation — including multipliers and weights, not just raw dimension values. Storing raw values without weights shifts the rendering burden to the UI and requires the UI to couple to internal logic constants. This is a data-contract failure, not a UI omission.
 - **JavaScript (plain ES modules)**: include a `node --input-type=module` smoke-test invocation in the build handoff as the reproducible test command. The test phase should reference this command rather than relying on static code trace. This gives the tester a single line to run that exercises the logic layer without a browser.
 - reviewer は UI の完成度だけで通さず、価値の中心ロジックが危険ケースを本当に止められているかを必須確認にする。
@@ -17,9 +18,10 @@
 - added to `it-agent/checklists/uiux-checklist.md` (verify controls in forced OS/browser dark mode, not only the default) and `it-agent/checklists/reviewer-checklist.md` plus `it-agent/checklists/tester-checklist.md` (test changing a control after a result is already shown, not only the first-pass linear flow) — applied directly this run.
 - for CSS that ships a `prefers-color-scheme: dark` media query, base element rules (`button`, `select`, `input`, and similar controls) must reference themed custom properties (e.g. `var(--panel)`, `var(--text)`) rather than a literal color like `white`; a hardcoded literal in the base rule silently survives the dark-mode override block untouched. Added as a CSS/styling rule note for `builder`.
 - New checklist items added to `it-agent/checklists/uiux-checklist.md` (verify controls in forced OS/browser dark mode, not only the default) and `it-agent/checklists/reviewer-checklist.md` plus `it-agent/checklists/tester-checklist.md` (test changing a control after a result is already shown, not only the first-pass linear flow).
-- Strengthen `reviewer` and `improver` guidance for heuristic tools so they must challenge confident labels such as `supported`, `safe`, or `complete` with at least one adversarial counterexample, not just confirm happy-path counts.
 ## Recently Reflected Learnings
 
+- Agent-facing tools need explicit checks for structured recoverable error contracts and visible re-evaluation feedback.
+- The learning generalizes beyond this artifact to MCP servers, local agent tools, and future triage/review boards.
 - All five rules are reusable across future runs, none are one-off fixes, and they address failure modes that will recur in any governance/classification artifact (rules 1–4) or any no-build-step browser artifact (rule 5). The wins (pure logic separation, dual-gate classification) also confirm patterns worth preserving in builder guidance.
 - 判定ロジックの危険ケース検知を優先レビューすること、そして callable logic を UI 外へ分離することを正式ルール候補として持ち帰る
 - どちらも day-039 固有の偶然ではなく、今後の it-agent と ai-factory に再利用価値がある。
@@ -28,8 +30,6 @@
 - The defect pattern is clearly reusable across future schema-driven tools, fits existing `reviewer` and ai-factory process layers, and does not depend on this single artifact's domain. The build/test/review evidence is strong enough to justify a standard-rule update.
 - The issue was not a one-off product quirk. It exposed a repeatable weakness in builder claims, tester coverage, and reviewer contract checking for checker-style tools. The corrective rule is narrow, reusable, and fits existing `it-agent` roles without adding a new agent.
 - reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
-- The lesson satisfies the `it-agent` evolution rule to improve existing roles instead of inventing new ones. It is reusable across languages and artifact types, directly strengthens the core build -> test -> review loop, and was supported by concrete evidence from this run rather than a one-off preference.
-- The concrete bug belongs to this artifact, but the escape pattern is general and likely to recur in schema-diff, mapping, migration, and rename-review tools. The right response is to strengthen existing role guidance and checklists rather than add a new role or treat this as a one-off hold.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
