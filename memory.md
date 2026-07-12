@@ -8,6 +8,9 @@
 
 ## Active Standard Rules
 
+- For governance/intake tools, require recommendations to include missing facts, confidence, and next actions rather than a single verdict.
+- When an artifact returns approval-like labels, verify that the UI and copy state the result is advisory and not final approval.
+- Browser JavaScript artifacts should expose core logic as an importable module and include a small Node-based test path when practical.
 - For agent-facing tools, reviewer/tester should confirm error contracts are structured, recoverable, observable, and user-actionable.
 - **Builder**: add a rule that when a logic module returns a `breakdown`, `reasoning`, or `explanation` object alongside a verdict, that object must include all data the UI needs to render a human-readable explanation — including multipliers and weights, not just raw dimension values. Storing raw values without weights shifts the rendering burden to the UI and requires the UI to couple to internal logic constants. This is a data-contract failure, not a UI omission.
 - **JavaScript (plain ES modules)**: include a `node --input-type=module` smoke-test invocation in the build handoff as the reproducible test command. The test phase should reference this command rather than relying on static code trace. This gives the tester a single line to run that exercises the logic layer without a browser.
@@ -15,11 +18,9 @@
 - 「危険サンプルが意図通り BLOCK / WARN になるか」「安全サンプルが過剰に BLOCK されていないか」を、判定系ツールの標準チェックに追加する。
 - TypeScript / Vite のローカルツールでは、`src/lib/*` に callable logic を置き、`src/main.ts` は描画と配線だけに寄せる。
 - uiux` must explicitly test a browser artifact in both the default color scheme and a forced OS/browser dark color scheme before signing off on visual quality, since a `prefers-color-scheme` block existing in the CSS is not evidence it was actually exercised. Separately, `reviewer` and `tester` must add "change a control after a result/report is already rendered" (e.g. flip a dropdown, retoggle a filter, without clearing state first) as a standard non-linear regression probe for any stateful UI, not only the linear load -> analyze -> read path.
-- added to `it-agent/checklists/uiux-checklist.md` (verify controls in forced OS/browser dark mode, not only the default) and `it-agent/checklists/reviewer-checklist.md` plus `it-agent/checklists/tester-checklist.md` (test changing a control after a result is already shown, not only the first-pass linear flow) — applied directly this run.
-- for CSS that ships a `prefers-color-scheme: dark` media query, base element rules (`button`, `select`, `input`, and similar controls) must reference themed custom properties (e.g. `var(--panel)`, `var(--text)`) rather than a literal color like `white`; a hardcoded literal in the base rule silently survives the dark-mode override block untouched. Added as a CSS/styling rule note for `builder`.
-- New checklist items added to `it-agent/checklists/uiux-checklist.md` (verify controls in forced OS/browser dark mode, not only the default) and `it-agent/checklists/reviewer-checklist.md` plus `it-agent/checklists/tester-checklist.md` (test changing a control after a result is already shown, not only the first-pass linear flow).
 ## Recently Reflected Learnings
 
+- The lesson applies to future governance, compliance, security, and workflow triage artifacts, not just this shadow AI board.
 - Agent-facing tools need explicit checks for structured recoverable error contracts and visible re-evaluation feedback.
 - The learning generalizes beyond this artifact to MCP servers, local agent tools, and future triage/review boards.
 - All five rules are reusable across future runs, none are one-off fixes, and they address failure modes that will recur in any governance/classification artifact (rules 1–4) or any no-build-step browser artifact (rule 5). The wins (pure logic separation, dual-gate classification) also confirm patterns worth preserving in builder guidance.
@@ -29,7 +30,6 @@
 - The failures were not accidental one-off bugs tied only to this artifact. They expose repeatable process gaps in how `it-agent` tests and reviews heuristic classifiers, and the corrective rule is stable enough to improve future Python and text-analysis runs without adding a new role.
 - The defect pattern is clearly reusable across future schema-driven tools, fits existing `reviewer` and ai-factory process layers, and does not depend on this single artifact's domain. The build/test/review evidence is strong enough to justify a standard-rule update.
 - The issue was not a one-off product quirk. It exposed a repeatable weakness in builder claims, tester coverage, and reviewer contract checking for checker-style tools. The corrective rule is narrow, reusable, and fits existing `it-agent` roles without adding a new agent.
-- reflect. The failures are not just one implementation mistake; they expose a repeatable weakness in how `builder`, `tester`, and the run process validate heuristic scanners. The rule is narrow enough to be actionable and broad enough to help future config, doc, and audit checkers.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
