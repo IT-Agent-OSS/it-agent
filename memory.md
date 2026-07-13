@@ -8,6 +8,7 @@
 
 ## Active Standard Rules
 
+- **builder** — add to builder instructions: "Every artifact directory must contain a `README.md` that covers (1) how to open or run the artifact, (2) what any score/grade scale means, and (3) a one-liner showing how to call the logic layer from outside the browser if one exists. This README is a deliverable, not optional documentation."
 - For governance/intake tools, require recommendations to include missing facts, confidence, and next actions rather than a single verdict.
 - When an artifact returns approval-like labels, verify that the UI and copy state the result is advisory and not final approval.
 - Browser JavaScript artifacts should expose core logic as an importable module and include a small Node-based test path when practical.
@@ -17,9 +18,9 @@
 - reviewer は UI の完成度だけで通さず、価値の中心ロジックが危険ケースを本当に止められているかを必須確認にする。
 - 「危険サンプルが意図通り BLOCK / WARN になるか」「安全サンプルが過剰に BLOCK されていないか」を、判定系ツールの標準チェックに追加する。
 - TypeScript / Vite のローカルツールでは、`src/lib/*` に callable logic を置き、`src/main.ts` は描画と配線だけに寄せる。
-- uiux` must explicitly test a browser artifact in both the default color scheme and a forced OS/browser dark color scheme before signing off on visual quality, since a `prefers-color-scheme` block existing in the CSS is not evidence it was actually exercised. Separately, `reviewer` and `tester` must add "change a control after a result/report is already rendered" (e.g. flip a dropdown, retoggle a filter, without clearing state first) as a standard non-linear regression probe for any stateful UI, not only the linear load -> analyze -> read path.
 ## Recently Reflected Learnings
 
+- All seven learnings are non-obvious, will recur in future artifacts, and map cleanly to existing checklist or role instruction files. None are one-off artifact quirks. The separation pattern (Win 1) and structured output pattern (Win 2) are also worth preserving as positive examples in builder instructions.
 - The lesson applies to future governance, compliance, security, and workflow triage artifacts, not just this shadow AI board.
 - Agent-facing tools need explicit checks for structured recoverable error contracts and visible re-evaluation feedback.
 - The learning generalizes beyond this artifact to MCP servers, local agent tools, and future triage/review boards.
@@ -29,7 +30,6 @@
 - Neither failure is a one-off quirk of this specific handoff-checking domain. Any future browser artifact with a dark-mode CSS block can hit the identical hardcoded-color trap, and any future tool with a selector/dropdown driving computation against persistent textarea/file state can hit the identical stale-recompute trap. Both are narrow, concrete, and were independently reproduced (uiux's `getComputedStyle` read for the CSS bug; reviewer's and uiux's live Playwright reproduction for the stale-state bug), and both are absorbable into the existing `uiux`/`reviewer`/`tester` checklists without adding a new role, consistent with the preferred growth order in `agent-composition-rules.md`.
 - The failures were not accidental one-off bugs tied only to this artifact. They expose repeatable process gaps in how `it-agent` tests and reviews heuristic classifiers, and the corrective rule is stable enough to improve future Python and text-analysis runs without adding a new role.
 - The defect pattern is clearly reusable across future schema-driven tools, fits existing `reviewer` and ai-factory process layers, and does not depend on this single artifact's domain. The build/test/review evidence is strong enough to justify a standard-rule update.
-- The issue was not a one-off product quirk. It exposed a repeatable weakness in builder claims, tester coverage, and reviewer contract checking for checker-style tools. The corrective rule is narrow, reusable, and fits existing `it-agent` roles without adding a new agent.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要
