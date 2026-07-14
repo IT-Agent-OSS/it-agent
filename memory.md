@@ -8,6 +8,8 @@
 
 ## Active Standard Rules
 
+- uiux ロールの観点に「空入力・無効入力での silent return は UI として成立しない」を明示的に追加する。builder ロールも「入力バリデーション時のフィードバック有無」を build checklist で確認する責務を持つ。
+- なし（今回の学習はパターン汎用）
 - **builder** — add to builder instructions: "Every artifact directory must contain a `README.md` that covers (1) how to open or run the artifact, (2) what any score/grade scale means, and (3) a one-liner showing how to call the logic layer from outside the browser if one exists. This README is a deliverable, not optional documentation."
 - For governance/intake tools, require recommendations to include missing facts, confidence, and next actions rather than a single verdict.
 - When an artifact returns approval-like labels, verify that the UI and copy state the result is advisory and not final approval.
@@ -16,10 +18,9 @@
 - **Builder**: add a rule that when a logic module returns a `breakdown`, `reasoning`, or `explanation` object alongside a verdict, that object must include all data the UI needs to render a human-readable explanation — including multipliers and weights, not just raw dimension values. Storing raw values without weights shifts the rendering burden to the UI and requires the UI to couple to internal logic constants. This is a data-contract failure, not a UI omission.
 - **JavaScript (plain ES modules)**: include a `node --input-type=module` smoke-test invocation in the build handoff as the reproducible test command. The test phase should reference this command rather than relying on static code trace. This gives the tester a single line to run that exercises the logic layer without a browser.
 - reviewer は UI の完成度だけで通さず、価値の中心ロジックが危険ケースを本当に止められているかを必須確認にする。
-- 「危険サンプルが意図通り BLOCK / WARN になるか」「安全サンプルが過剰に BLOCK されていないか」を、判定系ツールの標準チェックに追加する。
-- TypeScript / Vite のローカルツールでは、`src/lib/*` に callable logic を置き、`src/main.ts` は描画と配線だけに寄せる。
 ## Recently Reflected Learnings
 
+- 4 項目すべてが特定の実装に依存しない汎用ルールであり、次回以降の build / review / uiux フェーズで再発を防げる。コストは各チェックリストへの 1〜2 行追加のみで適用できる。
 - All seven learnings are non-obvious, will recur in future artifacts, and map cleanly to existing checklist or role instruction files. None are one-off artifact quirks. The separation pattern (Win 1) and structured output pattern (Win 2) are also worth preserving as positive examples in builder instructions.
 - The lesson applies to future governance, compliance, security, and workflow triage artifacts, not just this shadow AI board.
 - Agent-facing tools need explicit checks for structured recoverable error contracts and visible re-evaluation feedback.
@@ -29,7 +30,6 @@
 - どちらも day-039 固有の偶然ではなく、今後の it-agent と ai-factory に再利用価値がある。
 - Neither failure is a one-off quirk of this specific handoff-checking domain. Any future browser artifact with a dark-mode CSS block can hit the identical hardcoded-color trap, and any future tool with a selector/dropdown driving computation against persistent textarea/file state can hit the identical stale-recompute trap. Both are narrow, concrete, and were independently reproduced (uiux's `getComputedStyle` read for the CSS bug; reviewer's and uiux's live Playwright reproduction for the stale-state bug), and both are absorbable into the existing `uiux`/`reviewer`/`tester` checklists without adding a new role, consistent with the preferred growth order in `agent-composition-rules.md`.
 - The failures were not accidental one-off bugs tied only to this artifact. They expose repeatable process gaps in how `it-agent` tests and reviews heuristic classifiers, and the corrective rule is stable enough to improve future Python and text-analysis runs without adding a new role.
-- The defect pattern is clearly reusable across future schema-driven tools, fits existing `reviewer` and ai-factory process layers, and does not depend on this single artifact's domain. The build/test/review evidence is strong enough to justify a standard-rule update.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要

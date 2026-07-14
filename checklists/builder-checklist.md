@@ -17,3 +17,6 @@
 - plain ES module の browser artifact では、`node --input-type=module` でロジック層を検証できる smoke test コマンドを handoff に残している
 - 公開・投稿・deploy のような高リスク操作は、肯定依頼か否定文脈かを区別して included scope に入れている
 - README に書ける形になっている
+- `artifacts/` 配下に最小 README（起動コマンド・ファイル構成・ライセンス 5 行程度）を常に置いている
+- OK/pass センチネルパターンを複数カテゴリで使う場合、発火条件（`results.length === 0` か severity 条件か）をカテゴリ間で統一しており、スコア分母が意図せず増加しない
+- 入力バリデーションで早期 return する場合、ユーザーへの視覚的フィードバック（エラーテキスト・ボーダー変化）を必ず返している（silent return 禁止）
