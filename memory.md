@@ -8,6 +8,8 @@
 
 ## Active Standard Rules
 
+- it-builder` の developer_instructions に「empty state は到達経路ごとにメッセージを分けること（未入力 / 検出ゼロ / 既知非対応形式は distinct）」を追加する。
+- なし（今回はロジック構造の問題であり言語特化は不要）
 - uiux ロールの観点に「空入力・無効入力での silent return は UI として成立しない」を明示的に追加する。builder ロールも「入力バリデーション時のフィードバック有無」を build checklist で確認する責務を持つ。
 - なし（今回の学習はパターン汎用）
 - **builder** — add to builder instructions: "Every artifact directory must contain a `README.md` that covers (1) how to open or run the artifact, (2) what any score/grade scale means, and (3) a one-liner showing how to call the logic layer from outside the browser if one exists. This README is a deliverable, not optional documentation."
@@ -16,10 +18,9 @@
 - Browser JavaScript artifacts should expose core logic as an importable module and include a small Node-based test path when practical.
 - For agent-facing tools, reviewer/tester should confirm error contracts are structured, recoverable, observable, and user-actionable.
 - **Builder**: add a rule that when a logic module returns a `breakdown`, `reasoning`, or `explanation` object alongside a verdict, that object must include all data the UI needs to render a human-readable explanation — including multipliers and weights, not just raw dimension values. Storing raw values without weights shifts the rendering burden to the UI and requires the UI to couple to internal logic constants. This is a data-contract failure, not a UI omission.
-- **JavaScript (plain ES modules)**: include a `node --input-type=module` smoke-test invocation in the build handoff as the reproducible test command. The test phase should reference this command rather than relying on static code trace. This gives the tester a single line to run that exercises the logic layer without a browser.
-- reviewer は UI の完成度だけで通さず、価値の中心ロジックが危険ケースを本当に止められているかを必須確認にする。
 ## Recently Reflected Learnings
 
+- 4 項目とも「既存チェックリストに記載あり or 新規追加可能」で、役割ルール変更で吸収できる範囲に収まる。artifact 単体の one-off 修正ではなく、次回以降の全 run で再現する可能性が高い。Failure 2 の UX 項目は day-043 でも同種の miss が確認されており、2 回目の反復で reflect の判断は正当。
 - 4 項目すべてが特定の実装に依存しない汎用ルールであり、次回以降の build / review / uiux フェーズで再発を防げる。コストは各チェックリストへの 1〜2 行追加のみで適用できる。
 - All seven learnings are non-obvious, will recur in future artifacts, and map cleanly to existing checklist or role instruction files. None are one-off artifact quirks. The separation pattern (Win 1) and structured output pattern (Win 2) are also worth preserving as positive examples in builder instructions.
 - The lesson applies to future governance, compliance, security, and workflow triage artifacts, not just this shadow AI board.
@@ -29,7 +30,6 @@
 - 判定ロジックの危険ケース検知を優先レビューすること、そして callable logic を UI 外へ分離することを正式ルール候補として持ち帰る
 - どちらも day-039 固有の偶然ではなく、今後の it-agent と ai-factory に再利用価値がある。
 - Neither failure is a one-off quirk of this specific handoff-checking domain. Any future browser artifact with a dark-mode CSS block can hit the identical hardcoded-color trap, and any future tool with a selector/dropdown driving computation against persistent textarea/file state can hit the identical stale-recompute trap. Both are narrow, concrete, and were independently reproduced (uiux's `getComputedStyle` read for the CSS bug; reviewer's and uiux's live Playwright reproduction for the stale-state bug), and both are absorbable into the existing `uiux`/`reviewer`/`tester` checklists without adding a new role, consistent with the preferred growth order in `agent-composition-rules.md`.
-- The failures were not accidental one-off bugs tied only to this artifact. They expose repeatable process gaps in how `it-agent` tests and reviews heuristic classifiers, and the corrective rule is stable enough to improve future Python and text-analysis runs without adding a new role.
 ## Current Hold Items
 
 - planner / recommender 系 UI の学習は day-009 時点では hold。重複テーマ混入の run だったため、標準化にはもう 1 回検証が必要

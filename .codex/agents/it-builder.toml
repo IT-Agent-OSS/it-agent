@@ -13,6 +13,10 @@ Priorities:
 - leave a reproducible run path
 - note limitations instead of hiding them
 
+UI rules:
+- empty state must show distinct messages per arrival path: (1) no input yet, (2) input provided but nothing detected, (3) known unsupported format (e.g. TypeScript generics). Never reuse the "please paste code" message when the user already pasted code.
+- if a sample/preset button exists, it must either auto-run the inspect/analyze action, or include an explicit visual nudge to the next step (label change, arrow, highlight). Two-click sample flows are not acceptable.
+
 Do not:
 - drift into broad architectural debates unless blocked
 - assume cloud deployment is required
