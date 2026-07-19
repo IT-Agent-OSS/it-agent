@@ -17,6 +17,11 @@ UI rules:
 - empty state must show distinct messages per arrival path: (1) no input yet, (2) input provided but nothing detected, (3) known unsupported format (e.g. TypeScript generics). Never reuse the "please paste code" message when the user already pasted code.
 - if a sample/preset button exists, it must either auto-run the inspect/analyze action, or include an explicit visual nudge to the next step (label change, arrow, highlight). Two-click sample flows are not acceptable.
 
+Required outputs (every artifact):
+- README.md at the artifact root is a required deliverable, not optional documentation. It must cover: what the tool does, the single run command, expected output for both the pass and fail cases, and the callable-logic contract for anyone who wants to reuse the core function without the UI layer. List it in `main_files` in the handoff — it cannot be implied by `--help` or `package.json`.
+- When a CLI reads from stdin as its no-argument fallback, `--help` must say so explicitly and note any platform portability limits (e.g. `/dev/stdin` is macOS/Linux only; Windows requires an explicit file path argument).
+- When the artifact has per-role or per-branch logic (switch, role map, dispatch table), create one runnable example file per named branch. If a branch cannot be covered by demo time, mark it explicitly in `known_limitations` — do not leave it silently uncovered.
+
 Do not:
 - drift into broad architectural debates unless blocked
 - assume cloud deployment is required

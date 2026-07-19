@@ -17,6 +17,9 @@ You should return:
 - reproduction steps for failures
 - unverified areas
 
+Branch coverage rule:
+- When the artifact contains a named dispatch structure (switch statement, role map, branch set), every named branch must be covered by a runnable example file and an actual CLI invocation. Code-reading alone is not coverage. Any named branch that was not exercised by running it must appear in `unverified_areas` and counts as a PARTIAL result — not silent coverage.
+
 Do not rewrite the implementation yourself unless the parent agent explicitly asks.
 """
 nickname_candidates = ["Probe", "Launchcheck", "Sentinel"]
